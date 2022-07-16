@@ -1,0 +1,104 @@
+﻿
+@model IPagedList<Data.Entities.Brand>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+<br />
+<div class="container">
+
+    @if (User.IsInRole("A"))
+    {
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+    }
+
+    @using (Html.BeginForm("Index", "Brand", FormMethod.Get))
+    {
+        // <span>Enter Brand name:</span>
+        <div class="form-inline ml-auto">
+            @Html.TextBox("search", ViewBag.Filter_value as string, new { @class = "form-control", @placeholder = "Search" })
+            @*<input class="form-control"type="text" name="search" placeholder="Search.." />*@
+            <button href="#!" class="btn btn-outline-white btn-md my-0 ml-sm-2" type="submit">Search</button>
+        </div>
+        // <input type="submit" value="Search" name="submit" />
+
+    }
+    <br />
+    
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.First().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().BrandName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrandName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+
+   
+    @*<ul class="pagination">
+            @{
+                int numberPage = (int)ViewBag.numberPage;
+                int pageCurrent = ViewBag.pageCurrent;
+
+                if (pageCurrent > 1)
+                {
+                    int prePage = pageCurrent - 1;
+                    <li class="active"><a href="?page=@prePage">Previous</a></li>
+                }
+
+                int i;
+                for (i = 1; i <= numberPage; i++)
+                {
+                    if (i == pageCurrent)
+                    {
+                        <li class="active"><a href="?page=@i">@i</a></li>
+
+                    }
+                    else
+                    {
+                        <li><a href="?page=@i">@i</a></li>
+                    }
+                }
+
+                if (pageCurrent > 1 && pageCurrent < numberPage)
+                {
+                    int nextPage = pageCurrent + 1;
+
+                    <li><a href="?page=@nextPage">Next</a></li>
+
+
+                }
+            }
+        </ul>*@
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Brand", new { page, search = Request.QueryString["search"] }))
+</div>

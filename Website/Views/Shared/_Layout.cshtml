@@ -1,0 +1,71 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+   @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    *@
+      
+    <link rel="stylesheet" href="~/Style/fontawesome/css/all.css" />
+
+
+
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("MakeupApi", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Brand", "Index", "Brand", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Category", "Index", "Category", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Product", "Index", "Product", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Perfume", "Index", "Perfumes", new { area = "" }, null)</li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.IsInRole("A"))
+                    {
+                        <li>@Html.ActionLink("User", "Index", "Users", new { area = "" }, null)</li>
+
+                    }
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a>Dear - @User.Identity.Name</a></li>
+                        <li>@Html.ActionLink("Logout", "Logout", "Security", new { area = "" }, null)</li>
+
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Register", "Register", "Security", new { area = "" }, null)</li>
+                        <li>@Html.ActionLink("Login", "Login", "Security", new { area = "" }, null)</li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="">  
+        @RenderBody()
+    </div>
+</body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+</html>
